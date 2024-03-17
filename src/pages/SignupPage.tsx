@@ -43,13 +43,29 @@ const SignupPage = () => {
   return (
     <div
       style={{ backgroundColor: "#222222" }}
-      className="flex flex-col md:flex-row justify-center items-center h-screen"
+      className="flex flex-col md:flex-row justify-center items-center h-screen relative"
     >
-      <div className="md:w-1/2 sm:w-screen">
+      {/* This Div show in small Screen Only */}
+      <div className="block md:hidden h-64 w-full relative ">
+        <div
+          style={{
+            backgroundColor: "#7A5AF9",
+            borderRadius: "50%",
+            filter: "blur(280px)",
+          }}
+          className="h-[60%]"
+        ></div>
+        <div className="flex flex-col  items-center">
+          <p className="text-center text-white text-2xl my-10 ">Sign Up</p>
+        </div>
+      </div>
+
+      {/* Form */}
+      <div className="md:w-1/2 sm:w-full">
         <h2 className="block sm: md:p-8 pt-8 absolute top-2 modak font-bold text-3xl text-white sm:text-center">
           CONVO
         </h2>
-        <div className="sm:w-full sm:h-full md:w-2/3 m-auto">
+        <div className=" sm:h-full md:w-[70%] m-auto ">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -174,13 +190,55 @@ const SignupPage = () => {
           </Formik>
         </div>
       </div>
-      {/* <div className="w-full md:w-1/2 sm:flex-none">
-        <img
-          src="/images/Group.svg"
-          alt="Signup"
-          className="object-cover w-screen h-screen"
-        />
-      </div> */}
+      <div className="w-full md:w-1/2 sm:flex-none hidden md:block">
+        <div
+          style={{
+            position: "relative",
+            textAlign: "center",
+            width: "100%",
+            height: "100vh",
+            backgroundColor: "#111111",
+          }}
+        >
+          {/* Background with blur */}
+          <div
+            style={{
+              width: "30%",
+              height: "30%",
+              backgroundColor: "#7A5AF9",
+              borderRadius: "50%",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              filter: "blur(100px)",
+              opacity: "0.7",
+            }}
+          ></div>
+
+          {/* Text */}
+          <div className="absolute top-[50%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-aliceblue flex flex-col items-center justify-center w-60 h-60 rounded-full text-white ">
+            <h1 className="text-6xl font-bold py-3">JOIN</h1>
+            <h1 className="text-6xl font-bold py-3">CONVERSATION</h1>
+            <div className="w-72 text-5xl flex justify-between  py-4 gap-[30px]  ">
+              <span className="bg-opacity-20 bg-slate-300 p-4 rounded-full">
+                &#9996;
+              </span>
+              <span className="bg-opacity-20 bg-slate-300 p-4 rounded-full">
+                &#129392;
+              </span>
+              <span className="bg-opacity-20 bg-slate-300 p-4 rounded-full">
+                &#129395;
+              </span>
+            </div>
+          </div>
+          <div className="h-screen flex flex-col justify-end">
+            <h3 className="text-center text-3xl font-bold py-5 text-white">
+              CONVO
+            </h3>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
