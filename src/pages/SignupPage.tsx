@@ -1,9 +1,10 @@
-// import React from "react";
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAt, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
+
 interface FormValues {
   email: string;
   username: string;
@@ -11,7 +12,7 @@ interface FormValues {
   confirmPassword: string;
 }
 
-const Signup = () => {
+const SignupPage = () => {
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
@@ -72,11 +73,13 @@ const Signup = () => {
                     style={{ backgroundColor: "#2B2B2B" }}
                     className="w-full px-4 py-2 border-b-4 border-b-gray-400 focus:outline-none focus:border-indigo-500"
                   />
-                  <ErrorMessage
-                    name="email"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
+                  <p className="h-4">
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="text-red-500 text-sm pt-1"
+                    />
+                  </p>
                 </div>
                 <div className="mb-6">
                   <label
@@ -94,11 +97,13 @@ const Signup = () => {
                     style={{ backgroundColor: "#2B2B2B" }}
                     className="w-full px-4 py-2 border-b-4 border-b-gray-400 focus:outline-none focus:border-indigo-500"
                   />
-                  <ErrorMessage
-                    name="username"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
+                  <p className="h-4">
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className="text-red-500 text-sm pt-1"
+                    />
+                  </p>
                 </div>
                 <div className="mb-6">
                   <label
@@ -116,11 +121,13 @@ const Signup = () => {
                     style={{ backgroundColor: "#2B2B2B" }}
                     className="w-full px-4 py-2 border-b-4 border-b-gray-400 focus:outline-none focus:border-indigo-500"
                   />
-                  <ErrorMessage
-                    name="password"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
+                  <p className="h-4">
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="text-red-500 text-sm pt-1"
+                    />
+                  </p>
                 </div>
                 <div className="mb-6">
                   <label
@@ -138,11 +145,13 @@ const Signup = () => {
                     style={{ backgroundColor: "#2B2B2B" }}
                     className="w-full px-4 py-2 border-b-4 border-b-gray-400 focus:outline-none focus:border-indigo-500"
                   />
-                  <ErrorMessage
-                    name="confirmPassword"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
+                  <p className="h-4">
+                    <ErrorMessage
+                      name="confirmPassword"
+                      component="div"
+                      className="text-red-500 text-sm pt-2 "
+                    />
+                  </p>
                 </div>
                 <button
                   type="submit"
@@ -176,4 +185,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignupPage;
