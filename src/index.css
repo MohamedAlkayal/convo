@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'billo';
+  src: url('src/assets/BILLO___.TTF') format('truetype');
+}
+
+.billo {
+  font-family: 'billo';
+}
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px; /* Width of the scrollbar */
 }
