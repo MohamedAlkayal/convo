@@ -12,14 +12,13 @@ interface FormValues {
   confirmPassword: string;
 }
 
-const SignupPage = () => {
+
+export default function SignupPage() {
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
     username: Yup.string().required("Required"),
-    password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Required"),
+    password: Yup.string().min(6, "Password must be at least 6 characters").required("Required"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), undefined], "Passwords must match")
       .required("Required"),
@@ -71,13 +70,11 @@ const SignupPage = () => {
             validationSchema={validationSchema}
             onSubmit={onSubmit}
           >
+
             {({ isSubmitting }) => (
               <Form className="my-auto mx-auto md:mt-20">
                 <div className="mb-6">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-semibold mb-2 text-white"
-                  >
+                  <label htmlFor="email" className="block text-sm font-semibold mb-2 text-white">
                     <FontAwesomeIcon icon={faAt} className="px-1" />
                     Email
                   </label>
@@ -96,12 +93,10 @@ const SignupPage = () => {
                       className="text-red-500 text-sm pt-1"
                     />
                   </p>
+
                 </div>
                 <div className="mb-6">
-                  <label
-                    htmlFor="username"
-                    className="block text-sm font-semibold mb-2 text-white"
-                  >
+                  <label htmlFor="username" className="block text-sm font-semibold mb-2 text-white">
                     <FontAwesomeIcon icon={faUser} className="px-1" />
                     Username
                   </label>
@@ -120,12 +115,10 @@ const SignupPage = () => {
                       className="text-red-500 text-sm pt-1"
                     />
                   </p>
+
                 </div>
                 <div className="mb-6">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm font-semibold mb-2 text-white"
-                  >
+                  <label htmlFor="password" className="block text-sm font-semibold mb-2 text-white">
                     <FontAwesomeIcon icon={faLock} className="px-1" />
                     Password
                   </label>
@@ -146,10 +139,7 @@ const SignupPage = () => {
                   </p>
                 </div>
                 <div className="mb-6">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block text-sm font-semibold mb-2 text-white"
-                  >
+                  <label htmlFor="confirmPassword" className="block text-sm font-semibold mb-2 text-white">
                     <FontAwesomeIcon icon={faLock} className="px-1" />
                     Confirm Password
                   </label>
@@ -168,20 +158,14 @@ const SignupPage = () => {
                       className="text-red-500 text-sm pt-2 "
                     />
                   </p>
+
                 </div>
-                <button
-                  type="submit"
-                  className="w-full text-white font-bold py-2 rounded-md transition duration-300 mt-6 bg-indigo-500 hover:bg-indigo-400"
-                  disabled={isSubmitting}
-                >
+                <button type="submit" className="w-full text-white font-bold py-2 rounded-md transition duration-300 mt-6 bg-indigo-500 hover:bg-indigo-400" disabled={isSubmitting}>
                   {isSubmitting ? "Signing Up..." : "Sign Up"}
                 </button>
                 <p className="text-center text-sm text-white p-6 mt-3">
                   You already have an account?{" "}
-                  <Link
-                    to="/login"
-                    className=" cursor-pointer duration-300 text-yellow-200 hover:text-indigo-400 "
-                  >
+                  <Link to="/login" className=" cursor-pointer duration-300 text-yellow-200 hover:text-indigo-400 ">
                     Login
                   </Link>
                 </p>
@@ -243,4 +227,3 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
