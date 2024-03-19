@@ -13,6 +13,7 @@ export default function ChatBox(): JSX.Element {
     setMessage(e.target.value)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEmojiSelect = (emojiObject: any): void => {
     const emoji = emojiObject.emoji
     setMessage((prevMessage) => prevMessage + emoji)
@@ -40,10 +41,10 @@ export default function ChatBox(): JSX.Element {
         />
         {/* Emoji Picker Button */}
         <button
-          className="p-2 hover:text-secondary absolute right-12 top-2"
+          className="p-2 hover:text-secondary absolute right-16 top-5"
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
-          <FontAwesomeIcon icon={faSmile} />
+          <FontAwesomeIcon icon={faSmile} className="text-2xl" />
         </button>
         {/* Emoji Picker */}
         {showEmojiPicker && (
@@ -54,9 +55,9 @@ export default function ChatBox(): JSX.Element {
         {/* Submit Button */}
         <button
           onClick={handleSubmit}
-          className="p-2 hover:text-secondary absolute right-2 bottom-2"
+          className="p-2 hover:text-secondary absolute right-4 top-5"
         >
-          <FontAwesomeIcon icon={faPaperPlane} />
+          <FontAwesomeIcon icon={faPaperPlane} className="text-2xl" />
         </button>
       </div>
     </div>
