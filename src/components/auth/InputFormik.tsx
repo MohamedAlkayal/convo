@@ -44,13 +44,13 @@ export default function InputFormik(props: Props) {
           </span>
         )}
       </div>
-      <p className="h-4">
+      <div className="h-4">
         <ErrorMessage
           name={name}
           component="div"
           className="text-red-500 text-sm"
         />
-      </p>
+      </div>
     </div>
   )
 }

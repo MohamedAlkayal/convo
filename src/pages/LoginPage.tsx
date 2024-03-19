@@ -1,10 +1,13 @@
 import { Formik, Form, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { faAt, faLock } from '@fortawesome/free-solid-svg-icons'
 import InputFormik from '../components/auth/InputFormik'
 import AuthCover from '../components/auth/AuthCover'
+import { ax } from '../utilities/axios.config'
+import axios, { AxiosError } from 'axios'
+import ErrorResponse from '../interfaces/DTOs/ErrorResponseDTO'
 
 interface FormValues {
   email: string
@@ -12,6 +15,8 @@ interface FormValues {
 }
 
 export default function LoginPage() {
+  const navigate = useNavigate()
+
   // Validation schema using Yup
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -27,10 +32,28 @@ export default function LoginPage() {
   }
 
   // Form submission handler
-  const onSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-    // submission logic
-    console.log(values)
-    actions.setSubmitting(false)
+  const onSubmit = async (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
+    try {
+      const res = await ax.post('/auth/login', values)
+      localStorage.setItem('token', res.data.token)
+      actions.resetForm()
+      navigate('/chat')
+    } catch (err) {
+      console.log(err)
+      if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError
+        if (axiosError.response) {
+          const resErr = axiosError.response.data as ErrorResponse
+          if (resErr.message) {
+            actions.setStatus(resErr.message)
+            return
+          }
+        }
+      }
+    }
   }
 
   return (
@@ -50,8 +73,15 @@ export default function LoginPage() {
             onSubmit={onSubmit}
             className="w-full"
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, status }) => (
               <Form className="my-auto mx-auto">
+                <div
+                  className={`flex items-center justify-center rounded-lg text-red-500 h-16 text-sm text-center mb-6 px-4 ${
+                    status ? ' bg-black/25 ' : ' '
+                  }`}
+                >
+                  {status}
+                </div>
                 <InputFormik
                   lable="Email"
                   name="email"
@@ -73,15 +103,15 @@ export default function LoginPage() {
                 >
                   {isSubmitting ? 'Loggin in...' : 'Login'}
                 </button>
-                <p className="text-center text-sm text-white p-6 mt-3">
-                  You don't have an account?
+                <div className="text-center flex justify-center gap-2 text-sm text-white p-6 mt-3">
+                  <p>You don't have an account?</p>
                   <Link
                     to="/signup"
-                    className=" ml-2 cursor-pointer duration-300 text-secondary hover:text-secondary-dimmer"
+                    className="cursor-pointer duration-300 text-secondary hover:text-secondary-dimmer"
                   >
                     Sign up
                   </Link>
-                </p>
+                </div>
               </Form>
             )}
           </Formik>
