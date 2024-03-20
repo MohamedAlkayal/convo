@@ -38,6 +38,8 @@ export default function LoginPage() {
   ) => {
     try {
       const res = await ax.post('/auth/login', values)
+      console.log(res)
+      localStorage.setItem('username', res.data.message.split(' ')[2])
       localStorage.setItem('token', res.data.token)
       actions.resetForm()
       navigate('/chat')
@@ -58,7 +60,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex bg-dark h-screen min-h-[740px]">
-      <div className="relative flex flex-col justify-center items-center gap-16 p-10 w-full md:w-1/2 h-full">
+      <div className="relative flex flex-col justify-center items-center gap-4 p-10 w-full md:w-1/2 h-full">
         <div className="absolute top-0 w-16 h-96 rounded-full blur-[180px] md:blur-[280px] bg-primary"></div>
         <h2 className="billo md:hidden text-center text-5xl text-light w-full">
           CONVO
