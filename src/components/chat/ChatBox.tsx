@@ -1,65 +1,33 @@
-import { useState, ChangeEvent } from 'react'
-import Picker from 'emoji-picker-react'
+import User from '../../interfaces/Modals/UserModal'
 import ChatContact from './ChatContact'
+import { ChatInput } from './ChatInput'
 import ChatMessages from './ChatMessages'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane, faSmile } from '@fortawesome/free-solid-svg-icons'
 
-export default function ChatBox(): JSX.Element {
-  const [message, setMessage] = useState<string>('')
-  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false)
-
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setMessage(e.target.value)
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleEmojiSelect = (emojiObject: any): void => {
-    const emoji = emojiObject.emoji
-    setMessage((prevMessage) => prevMessage + emoji)
-  }
-
-  const handleSubmit = (): void => {
-    // Handle message submission
-    console.log('Message submitted:', message)
-    // Clear message input
-    setMessage('')
-  }
-
+export default function ChatBox({
+  selectedChat
+}: {
+  selectedChat: User | null
+}): JSX.Element {
   return (
     <div className="flex flex-col gap-4 p-4 h-full w-full">
-      <div className="flex flex-col gap-4 h-full p-4 rounded-2xl bg-dark">
-        <ChatContact />
-        <ChatMessages />
-      </div>
-      <div className="min-h-[60px] bg-dark rounded-2xl p-4 flex gap-2 items-center relative">
-        <textarea
-          placeholder="Enter your message"
-          value={message}
-          onChange={handleInputChange}
-          className="bg-transparent outline-none resize-none w-full custom-scrollbar"
-        />
-        {/* Emoji Picker Button */}
-        <button
-          className="p-2 hover:text-secondary absolute right-16 top-5"
-          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-        >
-          <FontAwesomeIcon icon={faSmile} className="text-2xl" />
-        </button>
-        {/* Emoji Picker */}
-        {showEmojiPicker && (
-          <div className="absolute bottom-[70px] right-2">
-            <Picker onEmojiClick={handleEmojiSelect} />
+      {selectedChat ? (
+        <>
+          <div className="flex flex-col gap-4 h-full p-4 rounded-2xl bg-darker overflow-y-hidden">
+            <ChatContact selectedChat={selectedChat} />
+            <ChatMessages selectedChat={selectedChat} />
+            <ChatInput reciverId={selectedChat._id} />
           </div>
-        )}
-        {/* Submit Button */}
-        <button
-          onClick={handleSubmit}
-          className="p-2 hover:text-secondary absolute right-4 top-5"
-        >
-          <FontAwesomeIcon icon={faPaperPlane} className="text-2xl" />
-        </button>
-      </div>
+        </>
+      ) : (
+        <div className="flex flex-col justify-center items-center gap-8 w-full h-full">
+          <img
+            src="src/assets/empty1.png"
+            alt="empty state image"
+            className=" w-72"
+          />
+          <p className="text-lightgray">Select a covo to start chatting</p>
+        </div>
+      )}
     </div>
   )
 }

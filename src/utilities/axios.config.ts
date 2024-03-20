@@ -5,7 +5,7 @@ export let ax = axios.create({
   timeout: 8000,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `${localStorage.getItem('accessToken')}`
+    Authorization: `Bearer ${localStorage.getItem('token')}`
   }
 })
 
@@ -15,7 +15,7 @@ export function resetAxiosConfig() {
     timeout: 8000,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `${localStorage.getItem('accessToken')}`
+      Authorization: `Bearer ${localStorage.getItem('token')}`
     }
   })
 }
