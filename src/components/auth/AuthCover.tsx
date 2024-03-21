@@ -1,6 +1,6 @@
 export default function AuthCover() {
   return (
-    <div className="relative hidden md:flex flex-col justify-center items-center w-1/2 h-full bg-darkest">
+    <div className="relative hidden md:flex flex-col justify-center items-center w-1/2  bg-darkest">
       <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-32 h-32 rounded-full bg-primary blur-[150px]"></div>
       <div className="relative w-full flex flex-col justify-center items-center text-center gap-8">
         <p className="billo text-light text-9xl font-black">CONVO</p>

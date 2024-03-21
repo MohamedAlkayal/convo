@@ -3,6 +3,7 @@ import ChatBox from '../components/chat/ChatBox'
 import { useEffect, useState } from 'react'
 import { ax } from '../utilities/axios.config'
 import User from '../interfaces/Modals/UserModal'
+import io from 'socket.io-client'
 
 export default function ChatPage() {
   const [chats, setChats] = useState<User[]>([])
@@ -21,6 +22,27 @@ export default function ChatPage() {
       }
     }
     getChats()
+  }, [])
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const authToken = `Bearer ${token}`
+    const socketServerUrl = `https://real-time-chat-app-iti-v2.onrender.com`
+    const socket = io(socketServerUrl, {
+      extraHeaders: {
+        Authorization: authToken
+      }
+    })
+    socket.on('connect', () => {
+      console.log('Connected to server')
+    })
+    socket.on('newMessage', (data) => {
+      console.log('test')
+      console.log(data)
+    })
+    return () => {
+      socket.disconnect()
+    }
   }, [])
 
   const handelSelectChat = (selected: User) => {

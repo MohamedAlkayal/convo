@@ -3,7 +3,6 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import { ErrorMessage, Field } from 'formik'
-
 import { useState } from 'react'
 
 interface Props {
@@ -19,10 +18,10 @@ export default function InputFormik(props: Props) {
   const [showPassword, setShowPassword] = useState<boolean>(false)
 
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       <label
         htmlFor={name}
-        className="flex items-center gap-3 font-semibold pb-4 text-light"
+        className="flex items-center gap-3 font-semibold pb-4 text-light text-sm"
       >
         <FontAwesomeIcon icon={icon} />
         <p>{lable}</p>
@@ -33,7 +32,7 @@ export default function InputFormik(props: Props) {
           id={name}
           name={name}
           placeholder={placeholder}
-          className="w-full px-4 py-2 mb-2 border-b-2 border-lightgray bg-gray text-light focus:outline-none focus:border-primary"
+          className="w-full text-sm px-4 py-2 mb-2 border-b-2 border-lightgray bg-gray text-light focus:outline-none focus:border-primary"
         />
         {type == 'password' && (
           <span

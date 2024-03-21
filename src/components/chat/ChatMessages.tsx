@@ -3,7 +3,6 @@ import User from '../../interfaces/Modals/UserModal'
 import { ax } from '../../utilities/axios.config'
 import Message from '../../interfaces/Modals/MessageModal'
 import moment from 'moment'
-// import io from 'socket.io-client'
 
 export default function ChatMessages({ selectedChat }: { selectedChat: User }) {
   const [messages, setMessages] = useState<Message[] | null>(null)
@@ -36,7 +35,6 @@ export default function ChatMessages({ selectedChat }: { selectedChat: User }) {
         messagesByDay[formattedDate].push(message)
       })
       setGroupedMessages(messagesByDay)
-      scrollToBottom()
     }
   }
 
@@ -57,26 +55,9 @@ export default function ChatMessages({ selectedChat }: { selectedChat: User }) {
     groupMessagesByDay()
   }, [messages])
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token')
-  //   const authToken = `Bearer ${token}`
-  //   console.log(authToken)
-
-  //   const socketServerUrl = `https://real-time-chat-app-iti=v2.onrender.com`
-  //   const socket = io(socketServerUrl, {
-  //     extraHeaders: {
-  //       Authorization: authToken
-  //     }
-  //   })
-
-  //   socket.on('newMessage', () => {
-  //     console.log('Connected to server')
-  //   })
-
-  //   return () => {
-  //     socket.disconnect()
-  //   }
-  // }, [])
+  useEffect(() => {
+    scrollToBottom()
+  }, [groupedMessages])
 
   return (
     <div
@@ -118,55 +99,3 @@ export default function ChatMessages({ selectedChat }: { selectedChat: User }) {
     </div>
   )
 }
-
-// const mockMessages = [
-//   {
-//     _id: 'message_1',
-//     senderId: '65f4f02d9f31ed4ca11eb680',
-//     receiverId: 'user_2',
-//     message: "Hey, what's up?",
-//     createdAt: '2024-03-18T08:14:20.137Z', // Sunday, March 18, 2024
-//     updatedAt: '2024-03-18T08:14:20.137Z'
-//   },
-//   {
-//     _id: 'message_2',
-//     senderId: 'user_2',
-//     receiverId: '65f4f02d9f31ed4ca11eb680',
-//     message: 'Not much, just chilling 🥶',
-//     createdAt: '2024-03-18T08:15:30.246Z',
-//     updatedAt: '2024-03-18T08:15:30.246Z'
-//   },
-//   {
-//     _id: 'message_2a',
-//     senderId: 'user_2',
-//     receiverId: '65f4f02d9f31ed4ca11eb680',
-//     message: 'How about you?',
-//     createdAt: '2024-03-18T08:15:30.246Z',
-//     updatedAt: '2024-03-18T08:15:30.246Z'
-//   },
-//   {
-//     _id: 'message_3',
-//     senderId: '65f4f02d9f31ed4ca11eb680',
-//     receiverId: 'user_2',
-//     message: 'Same here. Thinking of grabbing some lunch soon.',
-//     createdAt: '2024-03-19T12:17:45.359Z', // Monday, March 19, 2024
-//     updatedAt: '2024-03-19T12:17:45.359Z'
-//   },
-//   {
-//     _id: 'message_4',
-//     senderId: 'user_2',
-//     receiverId: '65f4f02d9f31ed4ca11eb680',
-//     message:
-//       "Sounds dope. Want to meet up and do you suggest any new restaurants? I'm kinda bored of the regular.",
-//     createdAt: '2024-03-19T14:18:55.462Z',
-//     updatedAt: '2024-03-19T14:18:55.462Z'
-//   },
-//   {
-//     _id: 'message_5',
-//     senderId: '65f4f02d9f31ed4ca11eb680',
-//     receiverId: 'user_2',
-//     message: "Sure, let's go to that new burger joint downtown.",
-//     createdAt: '2024-03-20T10:20:10.578Z', // Tuesday, March 20, 2024
-//     updatedAt: '2024-03-20T10:20:10.578Z'
-//   }
-// ]
