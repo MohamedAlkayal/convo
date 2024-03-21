@@ -1,50 +1,62 @@
-import { Formik, Form, FormikHelpers } from 'formik'
 import * as Yup from 'yup'
-import { Link, useNavigate } from 'react-router-dom'
-
-import { faAt, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
-import InputFormik from '../components/auth/InputFormik'
-import AuthCover from '../components/auth/AuthCover'
-import { ax } from '../utilities/axios.config'
 import axios, { AxiosError } from 'axios'
+import { ax } from '../utilities/axios.config'
+import { useNavigate } from 'react-router-dom'
+import { Formik, Form, FormikHelpers } from 'formik'
+
+import AuthCover from '../components/auth/AuthCover'
+import SubmitBtn from '../components/auth/SubmitBtn'
+import LinkMessage from '../components/auth/LinkMessage'
+import InputFormik from '../components/auth/InputFormik'
+import StatusFormik from '../components/auth/StatusFormik'
+import AuthCoverSmall from '../components/auth/AuthCoverSmall'
 import ErrorResponse from '../interfaces/DTOs/ErrorResponseDTO'
+import {
+  faAt,
+  faLock,
+  faUser,
+  faMobile
+} from '@fortawesome/free-solid-svg-icons'
 
 interface FormValues {
   email: string
   username: string
+  phonenumber: string
   password: string
   confirmPassword: string
 }
+const phoneRegex = /^01[0125][0-9]{8}$/
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Required'),
+  username: Yup.string().required('Required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Required'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
+    .required('Required'),
+  phonenumber: Yup.string()
+    .required('Required')
+    .matches(phoneRegex, { message: 'Valid Egyptiant mobile numbers only' })
+})
 
 export default function SignupPage() {
   const navigate = useNavigate()
-  // Validation schema using Yup
-  const validationSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Required'),
-    username: Yup.string().required('Required'),
-    password: Yup.string()
-      .min(6, 'Password must be at least 6 characters')
-      .required('Required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
-      .required('Required')
-  })
 
-  // Initial form values
   const initialValues: FormValues = {
     email: '',
     username: '',
+    phonenumber: '',
     password: '',
     confirmPassword: ''
   }
 
-  // Form submission handler
   const onSubmit = async (
     values: FormValues,
     actions: FormikHelpers<FormValues>
   ) => {
     try {
-      const data = { ...values, gender: 'male', phonenumber: '01090562346' }
+      const data = { ...values, gender: 'male' }
       await ax.post('/auth/signup', data)
       actions.resetForm()
       navigate('/login')
@@ -72,79 +84,57 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex bg-dark h-screen min-h-[800px]">
-      <div className="relative flex flex-col justify-center items-center gap-4 p-10 w-full md:w-1/2 h-full">
-        <div className="absolute top-0 w-16 h-96 rounded-full blur-[180px] md:blur-[280px] bg-primary"></div>
-        <h2 className="billo md:hidden text-center text-5xl text-light w-full">
-          CONVO
-        </h2>
-        <h2 className="hidden md:block text-3xl text-center font-semibold text-light w-full">
-          Sign up
-        </h2>
-        <div className="w-full md:w-[70%]">
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={onSubmit}
-            className="w-full"
-          >
-            {({ isSubmitting, status }) => (
-              <Form className="my-auto mx-auto">
-                <div
-                  className={`flex items-center rounded-lg text-red-500 h-16 text-sm text-center mb-6 px-4 ${
-                    status ? ' bg-black/25 ' : ' '
-                  }`}
-                >
-                  {status}
-                </div>
-                <InputFormik
-                  lable="Email"
-                  name="email"
-                  icon={faAt}
-                  type="email"
-                  placeholder="Enter your Email"
-                />
-                <InputFormik
-                  lable="Username"
-                  name="username"
-                  icon={faUser}
-                  type="text"
-                  placeholder="Enter Username"
-                />
-                <InputFormik
-                  lable="Password"
-                  name="password"
-                  icon={faLock}
-                  type="password"
-                  placeholder="************"
-                />
-                <InputFormik
-                  lable="Confirm Password"
-                  name="confirmPassword"
-                  icon={faLock}
-                  type="password"
-                  placeholder="************"
-                />
-                <button
-                  type="submit"
-                  className="w-full text-white font-bold py-2 rounded transition duration-300 bg-primary hover:bg-primary-dimmer"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? 'Signing Up...' : 'Sign Up'}
-                </button>
-                <p className="text-center text-sm text-white p-6 mt-3">
-                  You already have an account?
-                  <Link
-                    to="/login"
-                    className=" ml-2 cursor-pointer duration-300 text-secondary hover:text-secondary-dimmer"
-                  >
-                    Login
-                  </Link>
-                </p>
-              </Form>
-            )}
-          </Formik>
-        </div>
+    <div className="flex bg-dark h-screen min-h-fit">
+      <AuthCoverSmall />
+      <div className="flex justify-center items-center p-10 w-full md:w-1/2 md:pt-10 pt-32">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ isSubmitting, status }) => (
+            <Form className="w-full lg:w-[70%] md:w-[90%]">
+              <StatusFormik status={status} />
+              <InputFormik
+                lable="Email"
+                name="email"
+                icon={faAt}
+                type="email"
+                placeholder="Enter your Email"
+              />
+              <InputFormik
+                lable="Username"
+                name="username"
+                icon={faUser}
+                type="text"
+                placeholder="Enter Username"
+              />
+              <InputFormik
+                lable="Phone Number"
+                name="phonenumber"
+                icon={faMobile}
+                type="text"
+                placeholder="Enter a valid Egyptian number"
+              />
+              <InputFormik
+                lable="Password"
+                name="password"
+                icon={faLock}
+                type="password"
+                placeholder="************"
+              />
+              <InputFormik
+                lable="Confirm Password"
+                name="confirmPassword"
+                icon={faLock}
+                type="password"
+                placeholder="************"
+              />
+              <SubmitBtn isSubmitting={isSubmitting} lable="Sign up" />
+              <LinkMessage variant="login" />
+            </Form>
+          )}
+        </Formik>
       </div>
       <AuthCover />
     </div>
