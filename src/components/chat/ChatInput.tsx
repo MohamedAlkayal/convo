@@ -1,14 +1,15 @@
-import { useState, ChangeEvent, useRef } from 'react'
 import Picker from 'emoji-picker-react'
+import useToggle from '../../utilities/useToggle'
+import { useState, ChangeEvent, useRef } from 'react'
+import { useChatsContext } from '../../contexts/chatsContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faSmile } from '@fortawesome/free-solid-svg-icons'
-import useToggle from '../../utilities/useToggle'
-import { ax } from '../../utilities/axios.config'
 
 export function ChatInput({ reciverId }: { reciverId: string }) {
   const [message, setMessage] = useState<string>('')
   const [showEmojiPicker, setShowEmojiPicker, elementRef] = useToggle()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const { sendMessage } = useChatsContext()
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setMessage(e.target.value)
@@ -25,13 +26,7 @@ export function ChatInput({ reciverId }: { reciverId: string }) {
   }
 
   const handleSubmit = async (): Promise<void> => {
-    const body = { message }
-    try {
-      await ax.post(`/message/send/${reciverId}`, body)
-    } catch (err) {
-      console.log(err)
-    }
-
+    sendMessage(message, reciverId)
     setMessage('')
   }
 

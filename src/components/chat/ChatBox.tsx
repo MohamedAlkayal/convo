@@ -1,20 +1,17 @@
-import User from '../../interfaces/Modals/UserModal'
+import { useChatsContext } from '../../contexts/chatsContext'
 import ChatContact from './ChatContact'
 import { ChatInput } from './ChatInput'
 import ChatMessages from './ChatMessages'
 
-export default function ChatBox({
-  selectedChat
-}: {
-  selectedChat: User | null
-}): JSX.Element {
+export default function ChatBox(): JSX.Element {
+  const { selectedChat } = useChatsContext()
   return (
     <div className="flex flex-col gap-4 p-4 h-full w-full">
       {selectedChat ? (
         <>
           <div className="flex flex-col gap-4 h-full p-4 rounded-2xl bg-darker overflow-y-hidden">
-            <ChatContact selectedChat={selectedChat} />
-            <ChatMessages selectedChat={selectedChat} />
+            <ChatContact />
+            <ChatMessages />
             <ChatInput reciverId={selectedChat._id} />
           </div>
         </>
