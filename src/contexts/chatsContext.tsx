@@ -14,6 +14,7 @@ import io from 'socket.io-client'
 interface contextType {
   chats: Chat[]
   selectedChat: Chat | null
+  onlineUsers: string[]
   handelSelectChat: (user_id: string) => void
   sendMessage: (message: string, reciverId: string) => void
 }
@@ -21,6 +22,7 @@ interface contextType {
 const ChatsContext = createContext<contextType>({
   chats: [],
   selectedChat: null,
+  onlineUsers: [],
   handelSelectChat: () => {},
   sendMessage: () => {}
 })
@@ -35,6 +37,7 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
   const [chats, setChats] = useState<Chat[]>([])
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
   const [currentUser, setCurrentUser] = useState<User | null>(null)
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([])
 
   const receiveMessage = (msg: Message) => {
     setChats((prevChats) =>
@@ -67,9 +70,14 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
       console.log('Connected to server')
     })
     socket.on('newMessage', (msg) => {
-      console.log(msg)
       receiveMessage(msg)
     })
+
+    socket.on('getOnlineUsers', (data) => {
+      setOnlineUsers(data)
+      console.log(data)
+    })
+
     return () => {
       socket.disconnect()
     }
@@ -214,6 +222,7 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
       value={{
         chats,
         selectedChat,
+        onlineUsers,
         handelSelectChat,
         sendMessage
       }}

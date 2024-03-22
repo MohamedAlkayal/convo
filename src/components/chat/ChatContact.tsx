@@ -2,7 +2,9 @@ import Avatar from 'boring-avatars'
 import { useChatsContext } from '../../contexts/chatsContext'
 
 export default function ChatContact() {
-  const { selectedChat } = useChatsContext()
+  const { selectedChat, onlineUsers } = useChatsContext()
+  const isOnline =
+    selectedChat && selectedChat._id && onlineUsers?.includes(selectedChat._id)
 
   return (
     <>
@@ -19,7 +21,7 @@ export default function ChatContact() {
           </div>
           <div
             className={`h-3 w-3 rounded-full mr-3 ${
-              selectedChat.user.active ? ' bg-green-500 ' : ' bg-gray'
+              isOnline ? ' bg-green-500 ' : ' bg-lightgray'
             } `}
           ></div>
         </div>

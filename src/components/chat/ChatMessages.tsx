@@ -2,10 +2,14 @@ import moment from 'moment'
 import { useEffect, useRef, useState } from 'react'
 import Message from '../../interfaces/Modals/MessageModal'
 import { useChatsContext } from '../../contexts/chatsContext'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClock } from '@fortawesome/free-solid-svg-icons'
 
 interface GroupedMsgsType {
   [key: string]: Message[]
 }
+
+// <FontAwesomeIcon icon={faClock} />
 
 export default function ChatMessages() {
   const { selectedChat } = useChatsContext()
@@ -49,7 +53,7 @@ export default function ChatMessages() {
   return (
     <div
       ref={scrollRef}
-      className="stripes rounded-2xl w-full h-full overflow-y-scroll custom-scrollbar p-6"
+      className="stripes rounded-2xl w-full h-full overflow-y-scroll custom-scrollbar p-6 pb-0"
     >
       {messages && messages.length === 0 && (
         <div className="text-center p-4 bg-dark rounded-xl text-light w-fit mx-auto">
@@ -66,25 +70,38 @@ export default function ChatMessages() {
               key={m._id}
               className={`flex ${
                 m.senderId === selectedChat?._id ? '' : 'flex-row-reverse'
-              } items-center gap-3 my-8 duration-300 text-lightgray hover:text-light`}
+              } items-center gap-3 my-4 duration-300 text-lightgray hover:text-light/100`}
             >
               <div
-                className={`p-4 mb-2 rounded-2xl w-fit lg:max-w-[40%] min-w-[80px] max-w-[65%] text-light ${
+                className={`p-4 mb-2 break-words rounded-2xl w-fit lg:max-w-[40%] min-w-[80px] max-w-[65%] text-light ${
                   m.senderId === selectedChat?._id
                     ? 'bg-gradient-to-t from-gray to-gray/80'
                     : 'bg-gradient-to-t from-primary to-primary-dimmer'
-                }`}
+                } ${m.status == 'failed' ? ' from-gray/90 to-gray/50 ' : ''}`}
               >
-                {m.message}
+                {m.message.split(' ')[0] === '&&IMG?LINK' ? (
+                  <div className="mb-2 rounded-xl overflow-hidden">
+                    <img src={m.message.split(' ')[1]} alt="image" />
+                  </div>
+                ) : (
+                  <p className="mb-2 ">{m.message}</p>
+                )}
+                <p
+                  className={`text-[12px] text-light/90 ${
+                    m.status == 'failed' ? ' text-red-500 ' : ''
+                  }`}
+                >
+                  {m.status === 'pending' ? (
+                    <>
+                      <FontAwesomeIcon icon={faClock} /> pending
+                    </>
+                  ) : m.status === 'failed' ? (
+                    'failed'
+                  ) : (
+                    moment(m.createdAt).format('hh:mm A')
+                  )}
+                </p>
               </div>
-              {/* <p className="text-sm">{moment(m.createdAt).format('hh:mm A')}</p> */}
-              <p className="text-sm">
-                {m.status === 'pending'
-                  ? 'pending'
-                  : m.status === 'failed'
-                  ? 'failed'
-                  : moment(m.createdAt).format('hh:mm A')}
-              </p>
             </div>
           ))}
         </div>
