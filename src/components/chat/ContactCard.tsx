@@ -1,20 +1,19 @@
 import Avatar from 'boring-avatars'
 import User from '../../interfaces/Modals/UserModal'
+import { useChatsContext } from '../../contexts/chatsContext'
 
-export default function ContactCard({
-  user,
-  selectedChat,
-  handelSelectChat
-}: {
+interface props {
   user: User
-  selectedChat: User | null
-  handelSelectChat: (selected: User) => void
-}) {
-  const isSelected = selectedChat?._id == user?._id
+}
+
+export default function ContactCard({ user }: props) {
+  const { selectedChat, handelSelectChat } = useChatsContext()
+
+  const isSelected = selectedChat?._id == user._id
 
   return (
     <div
-      onClick={() => handelSelectChat(user)}
+      onClick={() => handelSelectChat(user._id)}
       className={` flex items-center gap-4 p-4 cursor-pointer rounded-xl duration-300 hover:bg-darker mb-2 ml-1 ${
         isSelected ? ' bg-gray' : ' '
       } `}

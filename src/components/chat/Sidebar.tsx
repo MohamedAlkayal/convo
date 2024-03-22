@@ -1,17 +1,11 @@
 import UserCard from './UserCard'
 import ContactCard from './ContactCard'
-import User from '../../interfaces/Modals/UserModal'
 import { useState } from 'react'
+import { useChatsContext } from '../../contexts/chatsContext'
+import Chat from '../../interfaces/Modals/ChatModal'
 
-export default function Sidebar({
-  chats,
-  handelSelectChat,
-  selectedChat
-}: {
-  chats: User[]
-  selectedChat: User | null
-  handelSelectChat: (selected: User) => void
-}) {
+export default function Sidebar() {
+  const { chats } = useChatsContext()
   const [isGlowing, setIsGlowing] = useState<boolean>(true)
 
   const handelToggleGlowing = () => {
@@ -33,15 +27,8 @@ export default function Sidebar({
           Chats ({chats.length})
         </p>
         <div className="h-[90%] overflow-y-scroll custom-scrollbar">
-          {chats.map((c: User) => {
-            return (
-              <ContactCard
-                handelSelectChat={handelSelectChat}
-                selectedChat={selectedChat}
-                key={c._id}
-                user={c}
-              />
-            )
+          {chats.map((c: Chat) => {
+            return <ContactCard key={c._id} user={c.user} />
           })}
           {chats.length > 0 && (
             <p className=" py-6 text-center text-sm  text-lightgray">

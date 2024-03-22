@@ -3,7 +3,8 @@ export default interface Message {
   senderId: string
   receiverId: string
   message: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
+  status?: 'pending' | 'sent' | 'read' | 'failed'
   __v: number
 }

@@ -6,6 +6,7 @@ export default interface User {
   gender: 'male' | 'female'
   active: boolean
   profilePic?: string
+  newMesages: number
   updatedAt: Date
   createdAt: Date
 }

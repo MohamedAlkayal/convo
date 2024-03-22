@@ -1,8 +1,8 @@
 import * as Yup from 'yup'
 import axios, { AxiosError } from 'axios'
-import { ax } from '../utilities/axios.config'
 import { useNavigate } from 'react-router-dom'
 import { Formik, Form, FormikHelpers } from 'formik'
+import { ax, resetAxiosConfig } from '../utilities/axios.config'
 
 import AuthCover from '../components/auth/AuthCover'
 import SubmitBtn from '../components/auth/SubmitBtn'
@@ -39,10 +39,10 @@ export default function LoginPage() {
   ) => {
     try {
       const res = await ax.post('/auth/login', values)
-      console.log(res)
       localStorage.setItem('username', res.data.message.split(' ')[2])
       localStorage.setItem('token', res.data.token)
       actions.resetForm()
+      resetAxiosConfig()
       navigate('/chat')
     } catch (err) {
       console.log(err)
@@ -54,7 +54,11 @@ export default function LoginPage() {
             actions.setStatus(resErr.message)
             return
           }
+        } else {
+          actions.setStatus('Somthing went wrong, please try again later')
         }
+      } else {
+        actions.setStatus('Somthing went wrong, please try again later')
       }
     }
   }
