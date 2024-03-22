@@ -41,7 +41,7 @@ export default function UserCard() {
       </div>
       <div
         onClick={logout}
-        className=" cursor-pointer h-9 w-9 rounded-full flex justify-center items-center bg-gradient-to-tl from-gray to-gray/30 duration-300 hover:bg-primary "
+        className=" cursor-pointer h-9 w-9 rounded-full flex justify-center items-center bg-gray duration-300 hover:bg-primary "
       >
         <FontAwesomeIcon icon={faArrowRightFromBracket} className="text-sm " />
       </div>

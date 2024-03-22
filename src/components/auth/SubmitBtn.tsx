@@ -1,3 +1,5 @@
+import Spinner from '../shared/Spinner'
+
 export default function SubmitBtn({
   isSubmitting,
   lable
@@ -8,12 +10,12 @@ export default function SubmitBtn({
   return (
     <button
       type="submit"
-      className={`w-full text-white py-2 rounded transition duration-300 bg-primary hover:bg-primary-dimmer ${
+      className={`w-full flex justify-center text-white py-2 rounded transition duration-300 bg-primary hover:bg-primary-dimmer ${
         isSubmitting ? ' opacity-60 ' : ' '
       }`}
       disabled={isSubmitting}
     >
-      {isSubmitting ? 'loading' : lable}
+      {isSubmitting ? <Spinner /> : lable}
     </button>
   )
 }
