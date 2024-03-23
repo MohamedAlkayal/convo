@@ -18,7 +18,7 @@ export default function ContactCard({ user }: props) {
   return (
     <div
       onClick={() => handelSelectChat(user._id)}
-      className={`relative flex items-center gap-4 p-4 cursor-pointer  rounded-xl duration-300 hover:bg-darker mb-2 ml-1 ${
+      className={`relative flex items-center gap-4 p-4 cursor-pointer rounded-xl duration-300 hover:bg-darker mb-2 ml-1 ${
         isSelected ? ' bg-gray' : ' '
       } `}
     >
@@ -46,8 +46,10 @@ export default function ContactCard({ user }: props) {
             {lastMsg && moment(lastMsg?.createdAt).format('hh:mm A')}
           </p>
         </div>
-        <p className="text-sm text-lightgray max-w-[180px] lg:max-w-[220px] text-nowrap overflow-hidden overflow-ellipsis">
-          {lastMsg?.message}
+        <p className="text-sm text-lightgray text-nowrap overflow-hidden overflow-ellipsis">
+          {lastMsg?.message.split(' ')[0] == '&&IMG?LINK'
+            ? 'Image'
+            : lastMsg?.message}
         </p>
       </div>
     </div>

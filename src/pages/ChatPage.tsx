@@ -5,7 +5,7 @@ import { ChatsProvider } from '../contexts/chatsContext'
 export default function ChatPage() {
   return (
     <ChatsProvider>
-      <div className="flex w-full h-dvh min-h-[650px] bg-darkest text-light">
+      <div className="flex w-full h-dvh min-h-[650px] bg-darkest text-light overflow-hidden">
         <Sidebar />
         <ChatBox />
       </div>

@@ -112,7 +112,11 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
     fetchData()
   }, [])
 
-  const handelSelectChat = (user_id: string) => {
+  const handelSelectChat = (user_id: string | null) => {
+    if (user_id == '') {
+      setSelectedChat(null)
+      return
+    }
     const selected = chats.find((c: Chat) => c._id === user_id)
     if (selected) {
       setSelectedChat(selected)
@@ -216,6 +220,20 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
       })
     }
   }
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setSelectedChat(null)
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   return (
     <ChatsContext.Provider
