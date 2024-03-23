@@ -15,6 +15,7 @@ interface contextType {
   chats: Chat[]
   selectedChat: Chat | null
   onlineUsers: string[]
+  isFetching: boolean
   handelSelectChat: (user_id: string) => void
   sendMessage: (message: string, reciverId: string) => void
 }
@@ -23,6 +24,7 @@ const ChatsContext = createContext<contextType>({
   chats: [],
   selectedChat: null,
   onlineUsers: [],
+  isFetching: false,
   handelSelectChat: () => {},
   sendMessage: () => {}
 })
@@ -38,6 +40,7 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null)
   const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [onlineUsers, setOnlineUsers] = useState<string[]>([])
+  const [isFetching, setIsFetching] = useState<boolean>(false)
 
   const receiveMessage = (msg: Message) => {
     setChats((prevChats) =>
@@ -75,7 +78,6 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
 
     socket.on('getOnlineUsers', (data) => {
       setOnlineUsers(data)
-      console.log(data)
     })
 
     return () => {
@@ -86,6 +88,7 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsFetching(true)
         const res = await ax.get('/users')
         const currentUsername = localStorage.getItem('username')
         const fetchedCurrentUser = res.data.users.find(
@@ -105,7 +108,9 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
         })
         const allChats = await Promise.all(chatsPromises)
         setChats(allChats)
+        setIsFetching(false)
       } catch (err) {
+        setIsFetching(false)
         console.log(err)
       }
     }
@@ -238,6 +243,7 @@ export const ChatsProvider = ({ children }: ChatsProviderProps) => {
   return (
     <ChatsContext.Provider
       value={{
+        isFetching,
         chats,
         selectedChat,
         onlineUsers,
