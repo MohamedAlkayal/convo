@@ -13,7 +13,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-4 pr-0 h-full w-[450px]">
+    <div className="flex flex-col gap-4 p-4 pr-1 h-full w-full md:w-[540px] overflow-hidden">
       <div className="w-full h-full p-2 rounded-2xl bg-dark overflow-y-hidden">
         <h1
           onClick={handelToggleGlowing}
@@ -26,7 +26,7 @@ export default function Sidebar() {
         <p className=" p-2 px-4  bg-gray rounded-xl mb-3 mx-1 mt-1">
           Chats ({chats.length})
         </p>
-        <div className="h-[90%] overflow-y-scroll custom-scrollbar">
+        <div className="h-[88%] pb-28 overflow-y-scroll custom-scrollbar">
           {chats.map((c: Chat) => {
             return <ContactCard key={c._id} user={c.user} />
           })}

@@ -9,4 +9,5 @@ export default interface User {
   newMesages: number
   updatedAt: Date
   createdAt: Date
+  lastSeen: Date
 }
