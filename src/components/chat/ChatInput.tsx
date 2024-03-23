@@ -167,7 +167,7 @@ export function ChatInput({ reciverId }: { reciverId: string }) {
         <FontAwesomeIcon icon={faSmile} className="text-2xl" />
       </button>
       {showEmojiPicker && (
-        <div ref={elementRef} className="absolute bottom-12 -right-16">
+        <div ref={elementRef} className="absolute bottom-20 right-4">
           <Picker onEmojiClick={handleEmojiSelect} />
         </div>
       )}

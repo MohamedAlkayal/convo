@@ -4,12 +4,11 @@ import Message from '../../interfaces/Modals/MessageModal'
 import { useChatsContext } from '../../contexts/chatsContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock, faCircleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { ImageMessage } from './ImageMessage'
 
 interface GroupedMsgsType {
   [key: string]: Message[]
 }
-
-// <FontAwesomeIcon icon={faClock} />
 
 export default function ChatMessages() {
   const { selectedChat } = useChatsContext()
@@ -86,9 +85,9 @@ export default function ChatMessages() {
                 } ${m.status == 'failed' ? ' border border-red-500 ' : ''}`}
               >
                 {m.message.split(' ')[0] === '&&IMG?LINK' ? (
-                  <div className="mb-2 rounded-xl overflow-hidden">
-                    <img src={m.message.split(' ')[1]} alt="image" />
-                  </div>
+                  <>
+                    <ImageMessage message={m.message} />
+                  </>
                 ) : (
                   <p className="mb-2 ">{m.message}</p>
                 )}

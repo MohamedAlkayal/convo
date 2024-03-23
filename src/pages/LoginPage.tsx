@@ -89,6 +89,7 @@ export default function LoginPage() {
                 type="password"
                 placeholder="************"
               />
+
               <SubmitBtn isSubmitting={isSubmitting} lable="Login" />
               <LinkMessage variant="signup" />
             </Form>
